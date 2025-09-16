@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Адмін-панель</h2>
+
+<section>
+  <h3>Користувачі та ролі</h3>
+  <table>
+    <tr><th>ID</th><th>Email</th><th>Ролі</th><th>Призначити</th></tr>
+    {% for u in users %}
+      <tr>
+        <td>{{ u.id }}</td>
+        <td>{{ u.email }}</td>
+        <td>{{ ", ".join([r.name for r in u.roles]) }}</td>
+        <td>
+          <form method="post" action="{{ url_for('admin.set_role') }}">
+            <input type="hidden" name="user_id" value="{{ u.id }}">
+            <select name="role">
+              <option value="member">member</option>
+              <option value="admin">admin</option>
+              <option value="founder">founder</option>
+            </select>
+            <button class="btn">OK</button>
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+</section>
+
+<section>
+  <h3>Головна сторінка — блоки</h3>
+  <form method="post" action="{{ url_for('admin.create_block') }}">
+    <select name="block_type">
+      <option value="info">info</option>
+      <option value="gallery">gallery</option>
+      <option value="projects">projects</option>
+    </select>
+    <input type="text" name="title_uk" placeholder="Заголовок (укр)">
+    <input type="text" name="title_de" placeholder="Titel (de)">
+    <textarea name="body_uk" placeholder="Текст (укр)"></textarea>
+    <textarea name="body_de" placeholder="Text (de)"></textarea>
+    <button class="btn">Створити</button>
+  </form>
+
+  <ul>
+    {% for b in blocks %}
+      <li>
+        <strong>#{{ b.id }} {{ b.block_type }}</strong> — {{ b.title_uk }} / {{ b.title_de }}
+        {% if b.block_type == 'gallery' %}
+        <form method="post" action="{{ url_for('admin.add_block_image', bid=b.id) }}" enctype="multipart/form-data">
+          <input type="file" name="image" required>
+          <input type="text" name="caption_uk" placeholder="Підпис (укр)">
+          <input type="text" name="caption_de" placeholder="Beschriftung (de)">
+          <button class="btn">Додати фото</button>
+        </form>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+</section>
+
+<section>
+  <h3>Фінанси (журнал)</h3>
+  <form method="post" action="{{ url_for('admin.add_finance') }}">
+    <select name="type">
+      <option value="income">Надходження</option>
+      <option value="expense">Витрата</option>
+    </select>
+    <input type="number" step="0.01" name="amount" placeholder="Сума">
+    <input type="text" name="currency" value="EUR">
+    <input type="text" name="description" placeholder="Опис">
+    <button class="btn">Додати</button>
+  </form>
+  <ul>
+    {% for tx in txs %}
+      <li>{{ tx.created_at }} — {{ tx.type }} {{ tx.amount }} {{ tx.currency }} — {{ tx.description }}</li>
+    {% endfor %}
+  </ul>
+</section>
+{% endblock %}

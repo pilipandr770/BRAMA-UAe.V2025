@@ -1,0 +1,22 @@
+<header class="header">
+  <nav class="nav">
+    <a href="{{ url_for('public.index') }}">Головна</a>
+    <a href="https://facebook.com" target="_blank">Facebook</a>
+    <a href="https://instagram.com" target="_blank">Instagram</a>
+    <a href="https://t.me" target="_blank">Telegram</a>
+    <a href="mailto:info@example.com">Пошта</a>
+
+    <span class="spacer"></span>
+
+    {% if current_user.is_authenticated %}
+      <a href="{{ url_for('dashboard.home') }}">Кабінет</a>
+      <a href="{{ url_for('auth.logout') }}">Вийти</a>
+    {% else %}
+      <a href="{{ url_for('auth.login') }}">Увійти</a>
+      <a href="{{ url_for('auth.register') }}">Зареєструватися</a>
+    {% endif %}
+
+    <a href="{{ request.path }}?lang=uk">Укр</a>
+    <a href="{{ request.path }}?lang=de">De</a>
+  </nav>
+</header>

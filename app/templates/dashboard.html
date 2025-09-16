@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Кабінет</h2>
+
+<section>
+  <h3>Проєкти</h3>
+  <a class="btn" href="{{ url_for('dashboard.create_project') }}">Подати проєкт</a>
+  <ul>
+    {% for p in projects or [] %}
+      <li>
+        <strong>{{ p.title_uk }} / {{ p.title_de }}</strong>
+        <form method="post" action="{{ url_for('dashboard.vote_project', pid=p.id, value=1) }}"><button class="btn">За</button></form>
+        <form method="post" action="{{ url_for('dashboard.vote_project', pid=p.id, value=0) }}"><button class="btn">Утр.</button></form>
+        <form method="post" action="{{ url_for('dashboard.vote_project', pid=p.id, value=-1) }}"><button class="btn">Проти</button></form>
+      </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endblock %}

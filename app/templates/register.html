@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Реєстрація</h2>
+<form method="post">
+  {{ form.hidden_tag() }}
+  <label>Email {{ form.email() }}</label>
+  <label>Пароль {{ form.password() }}</label>
+  <label>Ім’я {{ form.first_name() }}</label>
+  <label>Прізвище {{ form.last_name() }}</label>
+  <label>{{ form.consent() }} Підписую згоду на збереження даних</label>
+  {{ form.submit(class="btn") }}
+</form>
+{% endblock %}

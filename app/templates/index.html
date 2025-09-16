@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Вітаємо в e.V. платформі</h1>
+  <div class="blocks">
+    {% for b in blocks %}
+      {% if b.block_type == 'info' %}
+        <section class="block info">
+          <h3>{{ t(g, b.title_uk, b.title_de) }}</h3>
+          <p>{{ t(g, b.body_uk, b.body_de) }}</p>
+        </section>
+      {% elif b.block_type == 'gallery' %}
+        <section class="block gallery">
+          <h3>{{ t(g, b.title_uk, b.title_de) }}</h3>
+          <div class="carousel">
+            {% for img in b.images %}
+              <figure class="slide">
+                <img src="{{ url_for('admin.image_raw', iid=img.id) }}" alt="img">
+                <figcaption>{{ t(g, img.caption_uk, img.caption_de) }}</figcaption>
+              </figure>
+            {% endfor %}
+          </div>
+        </section>
+      {% elif b.block_type == 'projects' %}
+        <section class="block projects">
+          <h3>{{ t(g, b.title_uk, b.title_de) }}</h3>
+          <p>{{ t(g, b.body_uk, b.body_de) }}</p>
+          <a class="btn" href="{{ url_for('dashboard.home') }}">Перейти до проєктів</a>
+        </section>
+      {% endif %}
+    {% endfor %}
+  </div>
+{% endblock %}

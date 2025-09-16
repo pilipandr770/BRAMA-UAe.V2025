@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Вхід</h2>
+<form method="post">
+  {{ form.hidden_tag() }}
+  <label>Email {{ form.email() }}</label>
+  <label>Пароль {{ form.password() }}</label>
+  <label>{{ form.remember() }} Запам’ятати</label>
+  {{ form.submit(class="btn") }}
+</form>
+{% endblock %}

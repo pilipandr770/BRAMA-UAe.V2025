@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="{{ g.lang or 'uk' }}">
+<head>
+  <meta charset="utf-8">
+  <title>e.V. Platform</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+  {% include "partials/navbar.html" %}
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+  {% include "partials/footer.html" %}
+
+  <script src="{{ url_for('static', filename='js/chat_widget.js') }}"></script>
+  <div id="chat-widget"></div>
+</body>
+</html>
