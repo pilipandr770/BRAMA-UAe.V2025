@@ -1,0 +1,40 @@
+<nav class="navbar">
+    <div class="container">
+        <a href="{{ url_for('public.index') }}" class="logo">
+            🇺🇦 BRAMA-UAe
+        </a>
+        
+        <ul class="nav-links">
+            <li><a href="{{ url_for('public.index') }}">{{ t(g, "Головна", "Startseite") }}</a></li>
+            
+            {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('dashboard.home') }}">{{ t(g, "Кабінет", "Dashboard") }}</a></li>
+                
+                {% if current_user.roles %}
+                    {% for role in current_user.roles %}
+                        {% if role.name == 'admin' %}
+                            <li><a href="{{ url_for('admin.home') }}">{{ t(g, "Адміністрування", "Administration") }}</a></li>
+                        {% endif %}
+                        {% if role.name == 'admin' %}
+                            <li><a href="{{ url_for('admin.meetings') }}">{{ t(g, "Збори", "Versammlungen") }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                
+                <li><a href="{{ url_for('auth.logout') }}">{{ t(g, "Вихід", "Abmelden") }} ({{ current_user.first_name or current_user.email }})</a></li>
+            {% else %}
+                <li><a href="{{ url_for('auth.login') }}">{{ t(g, "Вхід", "Anmelden") }}</a></li>
+                <li><a href="{{ url_for('auth.register') }}">{{ t(g, "Реєстрація", "Registrierung") }}</a></li>
+            {% endif %}
+            
+            <li><a href="{{ url_for('public.contacts') }}">{{ t(g, "Контакти", "Kontakt") }}</a></li>
+        </ul>
+        
+        <div class="lang-switcher">
+            <a href="{{ request.url }}{{ '&' if '?' in request.url else '?' }}lang=uk" 
+               class="{{ 'active' if g.lang == 'uk' else '' }}">🇺🇦 УКР</a>
+            <a href="{{ request.url }}{{ '&' if '?' in request.url else '?' }}lang=de" 
+               class="{{ 'active' if g.lang == 'de' else '' }}">🇩🇪 DEU</a>
+        </div>
+    </div>
+</nav>

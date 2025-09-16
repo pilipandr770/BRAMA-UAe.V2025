@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+
+{% block title %}{{ t(g, "Онлайн-збори", "Online-Versammlungen") }} - BRAMA-UAe.V2025{% endblock %}
+
+{% block content %}
+<div class="fade-in">
+    <h1>📅 {{ t(g, "Онлайн-збори BRAMA-UAe", "BRAMA-UAe Online-Versammlungen") }}</h1>
+    
+    <div class="content-block">
+        <p class="lead">
+            {{ t(g, 
+               "Демократичні процеси в дії - всі учасники можуть брати участь у зборах онлайн з голосуваннями та обговореннями.",
+               "Demokratische Prozesse in Aktion - alle Mitglieder können online an Versammlungen mit Abstimmungen und Diskussionen teilnehmen."
+            ) }}
+        </p>
+    </div>
+
+    <!-- Meetings List -->
+    {% if meetings %}
+        {% for meeting in meetings %}
+        <div class="content-block">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h2>{{ meeting.title }}</h2>
+                <span class="project-status review">
+                    {{ meeting.starts_at.strftime('%d.%m.%Y %H:%M') }}
+                </span>
+            </div>
+            
+            <p>{{ meeting.description }}</p>
+            
+            <!-- Meeting Agenda -->
+            {% if meeting.agenda_items %}
+            <div style="margin: 2rem 0;">
+                <h3>{{ t(g, "Порядок денний", "Tagesordnung") }}</h3>
+                {% for item in meeting.agenda_items %}
+                <div class="project-card">
+                    <h4>{{ loop.index }}. {{ item.title }}</h4>
+                    <p>{{ item.details }}</p>
+                    
+                    <!-- Voting for agenda item -->
+                    <div style="margin-top: 1rem;">
+                        <p><strong>{{ t(g, "Голосування", "Abstimmung") }}:</strong></p>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button onclick="voteAgendaItem({{ meeting.id }}, {{ item.id }}, 1)" class="btn btn-success btn-sm">
+                                👍 {{ t(g, "За", "Dafür") }}
+                            </button>
+                            <button onclick="voteAgendaItem({{ meeting.id }}, {{ item.id }}, 0)" class="btn btn-warning btn-sm">
+                                🤷 {{ t(g, "Утрим.", "Enthalt.") }}
+                            </button>
+                            <button onclick="voteAgendaItem({{ meeting.id }}, {{ item.id }}, -1)" class="btn btn-danger btn-sm">
+                                👎 {{ t(g, "Проти", "Dagegen") }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            
+            <!-- Meeting Discussion (placeholder) -->
+            <div style="margin: 2rem 0; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+                <h3>{{ t(g, "Обговорення", "Diskussion") }}</h3>
+                <p>{{ t(g, "Функція обговорення буде додана в наступній ітерації.", "Die Diskussionsfunktion wird in der nächsten Iteration hinzugefügt.") }}</p>
+                <small>{{ t(g, "Поки що ви можете використовувати чат-помічник для питань.", "Derzeit können Sie den Chat-Assistenten für Fragen nutzen.") }}</small>
+            </div>
+            
+            {% if current_user.is_authenticated and current_user.roles %}
+                {% for role in current_user.roles %}
+                    {% if role.name == 'admin' %}
+                    <div style="margin-top: 2rem; padding: 1rem; background: #fff3cd; border-radius: 8px; border-left: 4px solid var(--warning-color);">
+                        <h4>{{ t(g, "Адмін-дії", "Admin-Aktionen") }}</h4>
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                            <button onclick="addAgendaItem({{ meeting.id }})" class="btn btn-primary btn-sm">
+                                ➕ {{ t(g, "Додати пункт порядку", "Tagesordnungspunkt hinzufügen") }}
+                            </button>
+                            <button onclick="showMeetingStats({{ meeting.id }})" class="btn btn-info btn-sm" style="background-color: var(--info-color); color: white;">
+                                📊 {{ t(g, "Статистика голосувань", "Abstimmungsstatistiken") }}
+                            </button>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="content-block" style="text-align: center;">
+            <h2>{{ t(g, "Поки що немає заплановanih зборів", "Noch keine geplanten Versammlungen") }}</h2>
+            <p>{{ t(g, "Збори будуть з'являтися тут, коли адміністрація їх створить.", "Versammlungen werden hier angezeigt, wenn die Administration sie erstellt.") }}</p>
+            
+            {% if current_user.is_authenticated and current_user.roles %}
+                {% for role in current_user.roles %}
+                    {% if role.name == 'admin' %}
+                    <a href="{{ url_for('admin.home') }}" class="btn btn-primary">
+                        {{ t(g, "Створити збори", "Versammlung erstellen") }}
+                    </a>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
+    {% endif %}
+
+    <!-- Information Block -->
+    <div class="content-block" style="background: linear-gradient(135deg, #e3f2fd, #f3e5f5); border: none;">
+        <h2>{{ t(g, "Як працюють онлайн-збори", "Wie Online-Versammlungen funktionieren") }}</h2>
+        <div class="dashboard-grid">
+            <div>
+                <h3>🔒 {{ t(g, "Безпека", "Sicherheit") }}</h3>
+                <p>{{ t(g, "Тільки зареєстровані учасники можуть голосувати", "Nur registrierte Mitglieder können abstimmen") }}</p>
+            </div>
+            <div>
+                <h3>📊 {{ t(g, "Прозорість", "Transparenz") }}</h3>
+                <p>{{ t(g, "Всі результати голосувань відкриті", "Alle Abstimmungsergebnisse sind offen") }}</p>
+            </div>
+            <div>
+                <h3>⏰ {{ t(g, "Гнучкість", "Flexibilität") }}</h3>
+                <p>{{ t(g, "Участь можлива з будь-якого місця", "Teilnahme von überall möglich") }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+}
+</style>
+
+<script>
+async function voteAgendaItem(meetingId, agendaItemId, value) {
+    try {
+        // This would be implemented in a future iteration
+        BRAMAUtils.showNotification(
+            '{{ t(g, "Функція голосування буде додана в наступній версії", "Abstimmungsfunktion wird in der nächsten Version hinzugefügt") }}', 
+            'info'
+        );
+    } catch (error) {
+        BRAMAUtils.showNotification(
+            '{{ t(g, "Помилка голосування", "Abstimmungsfehler") }}', 
+            'danger'
+        );
+    }
+}
+
+function addAgendaItem(meetingId) {
+    const title = prompt('{{ t(g, "Назва пункту порядку денного:", "Titel des Tagesordnungspunkts:") }}');
+    const details = prompt('{{ t(g, "Деталі (необов\\'язково):", "Details (optional):") }}');
+    
+    if (title) {
+        BRAMAUtils.showNotification(
+            '{{ t(g, "Функція буде додана в наступній ітерації", "Funktion wird in der nächsten Iteration hinzugefügt") }}', 
+            'info'
+        );
+    }
+}
+
+function showMeetingStats(meetingId) {
+    BRAMAUtils.showNotification(
+        '{{ t(g, "Статистика голосувань буде доступна в наступній версії", "Abstimmungsstatistiken werden in der nächsten Version verfügbar sein") }}', 
+        'info'
+    );
+}
+</script>
+{% endblock %}

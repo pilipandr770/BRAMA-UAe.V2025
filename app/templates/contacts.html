@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+
+{% block title %}{{ t(g, "Контакти", "Kontakt") }} - BRAMA-UAe.V2025{% endblock %}
+
+{% block content %}
+<div class="fade-in">
+    <h1>{{ t(g, "Зв'яжіться з нами", "Kontaktieren Sie uns") }}</h1>
+    
+    <div class="content-block">
+        <p class="lead">
+            {{ t(g, 
+               "Ми завжди раді спілкуванню з нашою спільнотою. Звертайтесь з будь-якими питаннями, пропозиціями або ідеями.",
+               "Wir freuen uns immer über den Kontakt zu unserer Gemeinschaft. Wenden Sie sich mit Fragen, Vorschlägen oder Ideen an uns."
+            ) }}
+        </p>
+    </div>
+
+    <div class="dashboard-grid">
+        <!-- Contact Information -->
+        <div class="dashboard-card">
+            <h3>📧 {{ t(g, "Основні контакти", "Hauptkontakte") }}</h3>
+            <div style="line-height: 2;">
+                <p><strong>{{ t(g, "Загальні питання", "Allgemeine Fragen") }}:</strong><br>
+                <a href="mailto:info@brama-uae.de">info@brama-uae.de</a></p>
+                
+                <p><strong>{{ t(g, "Адміністрація", "Administration") }}:</strong><br>
+                <a href="mailto:admin@brama-uae.de">admin@brama-uae.de</a></p>
+                
+                <p><strong>{{ t(g, "Конфіденційність", "Datenschutz") }}:</strong><br>
+                <a href="mailto:privacy@brama-uae.de">privacy@brama-uae.de</a></p>
+                
+                <p><strong>{{ t(g, "Технічна підтримка", "Technischer Support") }}:</strong><br>
+                <a href="mailto:support@brama-uae.de">support@brama-uae.de</a></p>
+            </div>
+        </div>
+
+        <!-- Social Media & Online Presence -->
+        <div class="dashboard-card">
+            <h3>🌐 {{ t(g, "Онлайн-присутність", "Online-Präsenz") }}</h3>
+            <div style="line-height: 2;">
+                <p><strong>{{ t(g, "Офіційний сайт", "Offizielle Website") }}:</strong><br>
+                <a href="https://brama-uae.de" target="_blank">https://brama-uae.de</a></p>
+                
+                <p><strong>GitHub:</strong><br>
+                <a href="https://github.com/pilipandr770/BRAMA-UAe.V2025" target="_blank">
+                    {{ t(g, "Відкритий код проєкту", "Open Source Projekt") }}
+                </a></p>
+                
+                <p><strong>{{ t(g, "Соціальні мережі", "Soziale Medien") }}:</strong><br>
+                <small>{{ t(g, "Будуть додані незабаром", "Werden bald hinzugefügt") }}</small></p>
+                
+                <p><strong>{{ t(g, "Чат-помічник", "Chat-Assistent") }}:</strong><br>
+                <small>{{ t(g, "Скористайтесь віджетом справа внизу", "Nutzen Sie das Widget rechts unten") }}</small></p>
+            </div>
+        </div>
+
+        <!-- Office & Legal Information -->
+        <div class="dashboard-card">
+            <h3>🏢 {{ t(g, "Юридична інформація", "Rechtliche Informationen") }}</h3>
+            <div style="line-height: 1.8;">
+                <p><strong>{{ t(g, "Повна назва", "Vollständiger Name") }}:</strong><br>
+                BRAMA - Ukrainische Vereinigung e.V.</p>
+                
+                <p><strong>{{ t(g, "Реєстрація", "Registrierung") }}:</strong><br>
+                {{ t(g, "Зареєстровано як e.V. у Німеччині", "Als e.V. in Deutschland registriert") }}</p>
+                
+                <p><strong>{{ t(g, "Статус", "Status") }}:</strong><br>
+                {{ t(g, "Неприбуткова організація", "Gemeinnützige Organisation") }}</p>
+                
+                <p><strong>{{ t(g, "Мова спілкування", "Kommunikationssprachen") }}:</strong><br>
+                🇺🇦 Українська / 🇩🇪 Німецька</p>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="dashboard-card">
+            <h3>⚡ {{ t(g, "Швидкі дії", "Schnelle Aktionen") }}</h3>
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                {% if not current_user.is_authenticated %}
+                <a href="{{ url_for('auth.register') }}" class="btn btn-primary">
+                    ➕ {{ t(g, "Приєднатися до спільноти", "Der Gemeinschaft beitreten") }}
+                </a>
+                <a href="{{ url_for('auth.login') }}" class="btn btn-outline-primary">
+                    🔑 {{ t(g, "Вхід для учасників", "Mitglieder-Login") }}
+                </a>
+                {% else %}
+                <a href="{{ url_for('dashboard.home') }}" class="btn btn-primary">
+                    🏠 {{ t(g, "Особистий кабінет", "Dashboard") }}
+                </a>
+                <a href="{{ url_for('dashboard.create_project') }}" class="btn btn-success">
+                    💡 {{ t(g, "Запропонувати проєкт", "Projekt vorschlagen") }}
+                </a>
+                {% endif %}
+                
+                <a href="{{ url_for('public.privacy') }}" class="btn btn-info" style="background-color: var(--info-color); color: white;">
+                    🔒 {{ t(g, "Політика конфіденційності", "Datenschutzerklärung") }}
+                </a>
+                <a href="{{ url_for('public.terms') }}" class="btn btn-warning">
+                    📋 {{ t(g, "Умови користування", "Nutzungsbedingungen") }}
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <section class="content-block">
+        <h2>❓ {{ t(g, "Часті питання", "Häufig gestellte Fragen") }}</h2>
+        
+        <div style="display: grid; gap: 1rem;">
+            <div style="border: 1px solid #ddd; border-radius: 8px; padding: 1rem;">
+                <h4>{{ t(g, "Як стати учасником BRAMA-UAe?", "Wie kann ich Mitglied von BRAMA-UAe werden?") }}</h4>
+                <p>{{ t(g, 
+                   "Просто зареєструйтесь на нашій платформі, заповніть анкету та приєднайтесь до нашої спільноти. Членство безкоштовне.",
+                   "Registrieren Sie sich einfach auf unserer Plattform, füllen Sie den Fragebogen aus und treten Sie unserer Gemeinschaft bei. Die Mitgliedschaft ist kostenlos."
+                ) }}</p>
+            </div>
+            
+            <div style="border: 1px solid #ddd; border-radius: 8px; padding: 1rem;">
+                <h4>{{ t(g, "Чи можна брати участь, не маючи німецького громадянства?", "Kann ich teilnehmen, ohne die deutsche Staatsangehörigkeit zu haben?") }}</h4>
+                <p>{{ t(g, 
+                   "Звичайно! Наша організація відкрита для всіх, хто поділяє наші цінності, незалежно від громадянства чи статусу перебування в Німеччині.",
+                   "Natürlich! Unsere Organisation ist offen für alle, die unsere Werte teilen, unabhängig von Staatsangehörigkeit oder Aufenthaltsstatus in Deutschland."
+                ) }}</p>
+            </div>
+            
+            <div style="border: 1px solid #ddd; border-radius: 8px; padding: 1rem;">
+                <h4>{{ t(g, "Як працює голосування та прийняття рішень?", "Wie funktioniert die Abstimmung und Entscheidungsfindung?") }}</h4>
+                <p>{{ t(g, 
+                   "Всі рішення приймаються демократично через онлайн-голосування. Кожен учасник має один голос. Результати завжди прозорі та відкриті.",
+                   "Alle Entscheidungen werden demokratisch durch Online-Abstimmungen getroffen. Jedes Mitglied hat eine Stimme. Die Ergebnisse sind immer transparent und offen."
+                ) }}</p>
+            </div>
+            
+            <div style="border: 1px solid #ddd; border-radius: 8px; padding: 1rem;">
+                <h4>{{ t(g, "Чи безпечні мої персональні дані?", "Sind meine persönlichen Daten sicher?") }}</h4>
+                <p>{{ t(g, 
+                   "Так, ми дотримуємося всіх вимог GDPR та використовуємо сучасні методи захисту даних. Детальніше в нашій політиці конфіденційності.",
+                   "Ja, wir befolgen alle GDPR-Anforderungen und verwenden moderne Datenschutzmethoden. Mehr Details in unserer Datenschutzerklärung."
+                ) }}</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form Placeholder -->
+    <section class="content-block" style="background: linear-gradient(135deg, #f8f9fa, #e9ecef); border: 1px solid #dee2e6;">
+        <h2>📝 {{ t(g, "Форма зв'язку", "Kontaktformular") }}</h2>
+        <div style="text-align: center; padding: 2rem;">
+            <p>{{ t(g, 
+               "Контактна форма буде додана в наступній ітерації розробки.",
+               "Das Kontaktformular wird in der nächsten Entwicklungsiteration hinzugefügt."
+            ) }}</p>
+            <p>{{ t(g, 
+               "Поки що, будь ласка, використовуйте електронну пошту або чат-помічник для зв'язку.",
+               "Verwenden Sie bitte vorerst E-Mail oder den Chat-Assistenten zur Kontaktaufnahme."
+            ) }}</p>
+            <button onclick="document.querySelector('.chat-toggle').click()" class="btn btn-primary" style="margin-top: 1rem;">
+                💬 {{ t(g, "Відкрити чат-помічник", "Chat-Assistent öffnen") }}
+            </button>
+        </div>
+    </section>
+
+    <!-- Office Hours -->
+    <section class="content-block">
+        <h2>🕒 {{ t(g, "Часи роботи", "Öffnungszeiten") }}</h2>
+        <div class="dashboard-grid">
+            <div>
+                <h3>{{ t(g, "Онлайн-підтримка", "Online-Support") }}</h3>
+                <p>{{ t(g, "Платформа працює 24/7", "Plattform funktioniert 24/7") }}</p>
+                <p>{{ t(g, "Чат-помічник: завжди доступний", "Chat-Assistent: immer verfügbar") }}</p>
+            </div>
+            <div>
+                <h3>{{ t(g, "Відповіді на email", "E-Mail-Antworten") }}</h3>
+                <p>{{ t(g, "Пн-Пт: протягом 24 годин", "Mo-Fr: innerhalb von 24 Stunden") }}</p>
+                <p>{{ t(g, "Вих-Нд: протягом 48 годин", "Sa-So: innerhalb von 48 Stunden") }}</p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<style>
+.btn-outline-primary {
+    border: 2px solid var(--primary-color);
+    background: transparent;
+    color: var(--primary-color);
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s;
+}
+
+.btn-outline-primary:hover {
+    background: var(--primary-color);
+    color: white;
+}
+</style>
+{% endblock %}

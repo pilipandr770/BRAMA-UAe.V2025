@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+
+{% block title %}{{ t(g, "Умови користування", "Nutzungsbedingungen") }} - BRAMA-UAe.V2025{% endblock %}
+
+{% block content %}
+<div class="fade-in">
+    <h1>{{ t(g, "Умови користування", "Nutzungsbedingungen") }}</h1>
+    
+    <div class="content-block">
+        <div class="dashboard-grid" style="grid-template-columns: 1fr 1fr; gap: 2rem;">
+            <div>
+                <h2>🇺🇦 Українська версія</h2>
+                
+                <h3>1. Про BRAMA-UAe</h3>
+                <p>BRAMA-UAe.V2025 - це українське об'єднання (eingetragener Verein) у Німеччині, що працює на принципах демократії, прозорості та взаємодопомоги.</p>
+
+                <h3>2. Умови членства</h3>
+                <ul>
+                    <li>Членство відкрите для всіх, хто поділяє цінності організації</li>
+                    <li>Реєстрація на платформі означає бажання стати учасником</li>
+                    <li>Кожен учасник має права та обов'язки</li>
+                    <li>Учасники повинні діяти доброчесно та конструктивно</li>
+                </ul>
+
+                <h3>3. Права учасників</h3>
+                <ul>
+                    <li>Брати участь у голосуваннях</li>
+                    <li>Пропонувати проєкти</li>
+                    <li>Відвідувати онлайн-збори</li>
+                    <li>Доступ до фінансових звітів</li>
+                    <li>Використання всіх функцій платформи</li>
+                </ul>
+
+                <h3>4. Обов'язки учасників</h3>
+                <ul>
+                    <li>Дотримуватися правил спільноти</li>
+                    <li>Поважати інших учасників</li>
+                    <li>Не поширювати недостовірну інформацію</li>
+                    <li>Захищати репутацію організації</li>
+                    <li>Брати активну участь у житті спільноти</li>
+                </ul>
+
+                <h3>5. Заборонені дії</h3>
+                <ul>
+                    <li>Спам, флуд, троллінг</li>
+                    <li>Дискримінація за будь-якими ознаками</li>
+                    <li>Поширення ворожості або ненависті</li>
+                    <li>Порушення авторских прав</li>
+                    <li>Несанкціонований доступ до системи</li>
+                    <li>Використання платформи в комерційних цілях без дозволу</li>
+                </ul>
+
+                <h3>6. Голосування та проєкти</h3>
+                <ul>
+                    <li>Голосування є конфіденційним</li>
+                    <li>Результати публікуються відкрито</li>
+                    <li>Проєкти повинні відповідати цілям організації</li>
+                    <li>Адміністрація може модерувати контент</li>
+                </ul>
+
+                <h3>7. Відповідальність</h3>
+                <p>Організація не несе відповідальності за:</p>
+                <ul>
+                    <li>Дії користувачів на платформі</li>
+                    <li>Технічні збої (докладаємо всіх зусиль їх уникнути)</li>
+                    <li>Зміст повідомлень у чаті</li>
+                </ul>
+
+                <h3>8. Припинення членства</h3>
+                <p>Членство може бути припинене:</p>
+                <ul>
+                    <li>За власним бажанням учасника</li>
+                    <li>За серйозні порушення правил (після розгляду)</li>
+                    <li>За неактивність протягом року</li>
+                </ul>
+
+                <h3>9. Зміни умов</h3>
+                <p>Зміни в умовах обговорюються спільнотою та приймаються демократично.</p>
+            </div>
+
+            <div>
+                <h2>🇩🇪 Deutsche Version</h2>
+                
+                <h3>1. Über BRAMA-UAe</h3>
+                <p>BRAMA-UAe.V2025 ist eine ukrainische Vereinigung (eingetragener Verein) in Deutschland, die nach den Prinzipien der Demokratie, Transparenz und gegenseitigen Hilfe arbeitet.</p>
+
+                <h3>2. Mitgliedschaftsbedingungen</h3>
+                <ul>
+                    <li>Mitgliedschaft ist offen für alle, die die Werte der Organisation teilen</li>
+                    <li>Registrierung auf der Plattform bedeutet den Wunsch, Mitglied zu werden</li>
+                    <li>Jedes Mitglied hat Rechte und Pflichten</li>
+                    <li>Mitglieder müssen fair und konstruktiv handeln</li>
+                </ul>
+
+                <h3>3. Rechte der Mitglieder</h3>
+                <ul>
+                    <li>An Abstimmungen teilnehmen</li>
+                    <li>Projekte vorschlagen</li>
+                    <li>Online-Versammlungen besuchen</li>
+                    <li>Zugang zu Finanzberichten</li>
+                    <li>Nutzung aller Plattform-Funktionen</li>
+                </ul>
+
+                <h3>4. Pflichten der Mitglieder</h3>
+                <ul>
+                    <li>Einhaltung der Gemeinschaftsregeln</li>
+                    <li>Respekt gegenüber anderen Mitgliedern</li>
+                    <li>Keine Verbreitung falscher Informationen</li>
+                    <li>Schutz des Rufs der Organisation</li>
+                    <li>Aktive Teilnahme am Gemeinschaftsleben</li>
+                </ul>
+
+                <h3>5. Verbotene Handlungen</h3>
+                <ul>
+                    <li>Spam, Flooding, Trolling</li>
+                    <li>Diskriminierung jeder Art</li>
+                    <li>Verbreitung von Feindseligkeit oder Hass</li>
+                    <li>Urheberrechtsverletzungen</li>
+                    <li>Unbefugter Systemzugang</li>
+                    <li>Kommerzielle Nutzung der Plattform ohne Genehmigung</li>
+                </ul>
+
+                <h3>6. Abstimmungen und Projekte</h3>
+                <ul>
+                    <li>Abstimmungen sind vertraulich</li>
+                    <li>Ergebnisse werden offen veröffentlicht</li>
+                    <li>Projekte müssen den Zielen der Organisation entsprechen</li>
+                    <li>Administration kann Inhalte moderieren</li>
+                </ul>
+
+                <h3>7. Haftung</h3>
+                <p>Die Organisation haftet nicht für:</p>
+                <ul>
+                    <li>Handlungen der Nutzer auf der Plattform</li>
+                    <li>Technische Ausfälle (wir bemühen uns, sie zu vermeiden)</li>
+                    <li>Inhalte von Chat-Nachrichten</li>
+                </ul>
+
+                <h3>8. Beendigung der Mitgliedschaft</h3>
+                <p>Die Mitgliedschaft kann beendet werden:</p>
+                <ul>
+                    <li>Auf eigenen Wunsch des Mitglieds</li>
+                    <li>Bei schwerwiegenden Regelverstößen (nach Prüfung)</li>
+                    <li>Bei Inaktivität über ein Jahr</li>
+                </ul>
+
+                <h3>9. Änderungen der Bedingungen</h3>
+                <p>Änderungen der Bedingungen werden von der Gemeinschaft diskutiert und demokratisch beschlossen.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-block" style="background: #fff3cd; border-left: 4px solid var(--warning-color);">
+        <h3>⚖️ {{ t(g, "Правові аспекти", "Rechtliche Aspekte") }}</h3>
+        <ul>
+            <li>{{ t(g, "Ці умови регулюються німецьким правом", "Diese Bedingungen unterliegen deutschem Recht") }}</li>
+            <li>{{ t(g, "Спори вирішуються через медіацію або судову систему Німеччини", "Streitigkeiten werden durch Mediation oder das deutsche Gerichtssystem gelöst") }}</li>
+            <li>{{ t(g, "Організація зареєстрована як e.V. у Німеччині", "Die Organisation ist als e.V. in Deutschland registriert") }}</li>
+            <li>{{ t(g, "Дотримуємося GDPR та інших європейських норм", "Wir befolgen GDPR und andere europäische Standards") }}</li>
+        </ul>
+    </div>
+
+    <div class="content-block" style="background: linear-gradient(135deg, #e3f2fd, #f3e5f5); border: none;">
+        <h3>🤝 {{ t(g, "Дух спільноти", "Gemeinschaftsgeist") }}</h3>
+        <p>{{ t(g, 
+           "BRAMA-UAe - це більше, ніж просто організація. Це спільнота людей, які вірять у демократичні цінності, взаємоповагу та спільне будівництво кращого майбутнього для української діаспори в Німеччині.",
+           "BRAMA-UAe ist mehr als nur eine Organisation. Es ist eine Gemeinschaft von Menschen, die an demokratische Werte, gegenseitigen Respekt und den gemeinsamen Aufbau einer besseren Zukunft für die ukrainische Diaspora in Deutschland glauben."
+        ) }}</p>
+        
+        <div style="text-align: center; margin-top: 2rem;">
+            {% if not current_user.is_authenticated %}
+                <a href="{{ url_for('auth.register') }}" class="btn btn-primary" style="margin-right: 1rem;">
+                    {{ t(g, "Приєднатися до спільноти", "Der Gemeinschaft beitreten") }}
+                </a>
+            {% endif %}
+            <a href="{{ url_for('public.contacts') }}" class="btn btn-outline-primary">
+                {{ t(g, "Зв'язатися з нами", "Kontaktieren Sie uns") }}
+            </a>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #eee;">
+        <p><strong>{{ t(g, "Дата набрання чинності", "Datum des Inkrafttretens") }}:</strong> 2025-01-16</p>
+        <p><small>{{ t(g, "Версія 1.0 - початкова редакція", "Version 1.0 - Erstfassung") }}</small></p>
+    </div>
+</div>
+
+<style>
+.btn-outline-primary {
+    border: 2px solid var(--primary-color);
+    background: transparent;
+    color: var(--primary-color);
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s;
+}
+
+.btn-outline-primary:hover {
+    background: var(--primary-color);
+    color: white;
+}
+</style>
+{% endblock %}

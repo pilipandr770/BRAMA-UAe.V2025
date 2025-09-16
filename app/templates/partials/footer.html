@@ -1,0 +1,40 @@
+<div class="container">
+    <div class="footer-links">
+        <a href="{{ url_for('public.privacy') }}">{{ t(g, "Політика конфіденційності", "Datenschutzerklärung") }}</a>
+        <a href="{{ url_for('public.terms') }}">{{ t(g, "Умови користування", "Nutzungsbedingungen") }}</a>
+        <a href="{{ url_for('public.contacts') }}">{{ t(g, "Контакти", "Kontakt") }}</a>
+        {% if current_user.is_authenticated %}
+            <a href="{{ url_for('dashboard.home') }}">{{ t(g, "Особистий кабінет", "Mitgliederbereich") }}</a>
+        {% endif %}
+    </div>
+    
+    <div class="footer-info">
+        <p>
+            &copy; 2025 BRAMA-UAe.V2025 - 
+            {{ t(g, "Українське об'єднання в Німеччині", "Ukrainische Vereinigung in Deutschland") }}
+        </p>
+        <p>
+            <small>
+                {{ t(g, "Створено з ❤️ для української спільноти", "Erstellt mit ❤️ für die ukrainische Gemeinschaft") }} | 
+                {{ t(g, "Відкритий код на GitHub", "Open Source auf GitHub") }}
+            </small>
+        </p>
+    </div>
+</div>
+
+<style>
+.footer-info {
+    margin-top: 1rem;
+    border-top: 1px solid #555;
+    padding-top: 1rem;
+}
+
+.footer-info p {
+    margin: 0.5rem 0;
+}
+
+.lang-switcher a.active {
+    background-color: rgba(255,255,255,0.2);
+    font-weight: bold;
+}
+</style>

@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block title %}{{ t(g, "Особистий кабінет", "Mitglieder-Dashboard") }} - BRAMA-UAe.V2025{% endblock %}
+
+{% block content %}
+<div class="fade-in">
+    <h1>{{ t(g, "Особистий кабінет", "Mitglieder-Dashboard") }}</h1>
+    <p class="lead">
+        {{ t(g, 
+           "Вітаємо, " ~ current_user.first_name ~ "! Керуйте вашою участю в спільноті BRAMA-UAe.",
+           "Willkommen, " ~ current_user.first_name ~ "! Verwalten Sie Ihre Teilnahme in der BRAMA-UAe Gemeinschaft."
+        ) }}
+    </p>
+
+    <div class="dashboard-grid">
+        <!-- User Info Card -->
+        <div class="dashboard-card">
+            <h3>👤 {{ t(g, "Профіль учасника", "Mitgliederprofil") }}</h3>
+            <p><strong>{{ t(g, "Email", "E-Mail") }}:</strong> {{ current_user.email }}</p>
+            <p><strong>{{ t(g, "Ім'я", "Name") }}:</strong> {{ current_user.first_name }} {{ current_user.last_name }}</p>
+            <p><strong>{{ t(g, "Ролі", "Rollen") }}:</strong> 
+                {% for role in current_user.roles %}
+                    <span class="project-status approved" style="margin: 0.2rem;">{{ role.name }}</span>
+                {% endfor %}
+            </p>
+            <a href="{{ url_for('dashboard.survey') }}" class="btn btn-primary">
+                {{ t(g, "Заповнити анкету", "Fragebogen ausfüllen") }}
+            </a>
+        </div>
+
+        <!-- Quick Actions Card -->
+        <div class="dashboard-card">
+            <h3>⚡ {{ t(g, "Швидкі дії", "Schnelle Aktionen") }}</h3>
+            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <a href="{{ url_for('dashboard.create_project') }}" class="btn btn-success">
+                    ➕ {{ t(g, "Створити проєкт", "Projekt erstellen") }}
+                </a>
+                {% for role in current_user.roles %}
+                    {% if role.name == 'admin' %}
+                    <a href="{{ url_for('admin.home') }}" class="btn btn-warning">
+                        ⚙️ {{ t(g, "Адміністрування", "Administration") }}
+                    </a>
+                    <a href="{{ url_for('admin.meetings') }}" class="btn btn-info" style="background-color: var(--info-color); color: white;">
+                        📅 {{ t(g, "Збори", "Versammlungen") }}
+                    </a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Projects Stats -->
+        <div class="dashboard-card">
+            <h3>📊 {{ t(g, "Статистика проєктів", "Projekt-Statistiken") }}</h3>
+            <p>{{ t(g, "Всього проєктів", "Projekte gesamt") }}: <strong>{{ projects|length }}</strong></p>
+            <p>{{ t(g, "На розгляді", "In Prüfung") }}: 
+                <strong>{{ projects|selectattr('status', 'equalto', projects[0].status.review if projects else None)|list|length if projects else 0 }}</strong>
+            </p>
+            <p>{{ t(g, "Схвалено", "Genehmigt") }}: 
+                <strong>{{ projects|selectattr('status', 'equalto', projects[0].status.approved if projects else None)|list|length if projects else 0 }}</strong>
+            </p>
+        </div>
+    </div>
+
+    <!-- Projects Section -->
+    <section class="content-block">
+        <h2>{{ t(g, "Проєкти спільноти", "Gemeinschaftsprojekte") }}</h2>
+        
+        {% if projects %}
+            {% for project in projects %}
+            <div class="project-card">
+                <div class="project-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h3 style="margin: 0;">{{ project.title_uk if g.lang == 'uk' else project.title_de }}</h3>
+                    <span class="project-status {{ project.status.name }}">
+                        {% if project.status.name == 'review' %}
+                            {{ t(g, "На розгляді", "In Prüfung") }}
+                        {% elif project.status.name == 'approved' %}
+                            {{ t(g, "Схвалено", "Genehmigt") }}
+                        {% elif project.status.name == 'rejected' %}
+                            {{ t(g, "Відхилено", "Abgelehnt") }}
+                        {% elif project.status.name == 'funded' %}
+                            {{ t(g, "Профінансовано", "Finanziert") }}
+                        {% endif %}
+                    </span>
+                </div>
+                
+                <p>{{ project.desc_uk if g.lang == 'uk' else project.desc_de }}</p>
+                <p><small>{{ t(g, "Автор", "Autor") }}: {{ project.author.first_name }} {{ project.author.last_name }}</small></p>
+                
+                <div class="project-voting" style="margin-top: 1rem;">
+                    <p><strong>{{ t(g, "Голосування", "Abstimmung") }}:</strong></p>
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                        <button onclick="vote({{ project.id }}, 1)" class="btn btn-success btn-sm">
+                            👍 {{ t(g, "За", "Dafür") }} ({{ project.votes|selectattr('value', 'equalto', 1)|list|length }})
+                        </button>
+                        <button onclick="vote({{ project.id }}, 0)" class="btn btn-warning btn-sm">
+                            🤷 {{ t(g, "Утрим.", "Enthalt.") }} ({{ project.votes|selectattr('value', 'equalto', 0)|list|length }})
+                        </button>
+                        <button onclick="vote({{ project.id }}, -1)" class="btn btn-danger btn-sm">
+                            👎 {{ t(g, "Проти", "Dagegen") }} ({{ project.votes|selectattr('value', 'equalto', -1)|list|length }})
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div style="text-align: center; padding: 2rem; background: #f8f9fa; border-radius: 10px;">
+                <h3>{{ t(g, "Поки що немає проєктів", "Noch keine Projekte vorhanden") }}</h3>
+                <p>{{ t(g, "Станьте першим, хто запропонує проєкт для спільноти!", "Seien Sie der erste, der ein Projekt für die Gemeinschaft vorschlägt!") }}</p>
+                <a href="{{ url_for('dashboard.create_project') }}" class="btn btn-primary">
+                    {{ t(g, "Створити перший проєкт", "Erstes Projekt erstellen") }}
+                </a>
+            </div>
+        {% endif %}
+    </section>
+</div>
+
+<style>
+.btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+}
+
+.project-header {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.5rem;
+}
+</style>
+
+<script>
+async function vote(projectId, value) {
+    try {
+        const response = await BRAMAUtils.vote(projectId, value);
+        if (response.ok) {
+            BRAMAUtils.showNotification(
+                '{{ t(g, "Голос зараховано!", "Stimme abgegeben!") }}', 
+                'success'
+            );
+            // Reload page to update vote counts
+            setTimeout(() => location.reload(), 1000);
+        } else {
+            throw new Error('Vote failed');
+        }
+    } catch (error) {
+        BRAMAUtils.showNotification(
+            '{{ t(g, "Помилка голосування", "Abstimmungsfehler") }}', 
+            'danger'
+        );
+    }
+}
+</script>
+{% endblock %}

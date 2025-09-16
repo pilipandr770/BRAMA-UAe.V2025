@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}{{ t(g, "Вхід", "Anmeldung") }} - BRAMA-UAe.V2025{% endblock %}
+
+{% block content %}
+<div class="fade-in">
+    <div style="max-width: 400px; margin: 2rem auto;">
+        <div class="content-block">
+            <h2 style="text-align: center; margin-bottom: 2rem;">
+                {{ t(g, "Вхід до особистого кабінету", "Anmeldung zum Mitgliederbereich") }}
+            </h2>
+            
+            <form method="POST">
+                {{ form.hidden_tag() }}
+                
+                <div class="form-group">
+                    {{ form.email.label(class="form-label") }}
+                    {{ form.email(class="form-control", placeholder=t(g, "Введіть ваш email", "Geben Sie Ihre E-Mail ein")) }}
+                    {% if form.email.errors %}
+                        <div style="color: var(--danger-color); font-size: 0.9rem; margin-top: 0.5rem;">
+                            {% for error in form.email.errors %}{{ error }}{% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    {{ form.password.label(class="form-label") }}
+                    {{ form.password(class="form-control", placeholder=t(g, "Введіть пароль", "Passwort eingeben")) }}
+                    {% if form.password.errors %}
+                        <div style="color: var(--danger-color); font-size: 0.9rem; margin-top: 0.5rem;">
+                            {% for error in form.password.errors %}{{ error }}{% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group" style="display: flex; align-items: center; gap: 0.5rem;">
+                    {{ form.remember(style="width: auto;") }}
+                    {{ form.remember.label() }}
+                </div>
+                
+                <div class="form-group">
+                    {{ form.submit(class="btn btn-primary", style="width: 100%;") }}
+                </div>
+            </form>
+            
+            <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #eee;">
+                <p>{{ t(g, "Ще не маєте облікового запису?", "Haben Sie noch kein Konto?") }}</p>
+                <a href="{{ url_for('auth.register') }}" class="btn btn-outline-primary">
+                    {{ t(g, "Зареєструватися", "Registrieren") }}
+                </a>
+            </div>
+            
+            <div style="margin-top: 2rem; padding: 1rem; background: #f8f9fa; border-radius: 8px; font-size: 0.9rem;">
+                <strong>{{ t(g, "Для тестування:", "Zum Testen:") }}</strong><br>
+                {{ t(g, "Після реєстрації ви зможете:", "Nach der Registrierung können Sie:") }}
+                <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                    <li>{{ t(g, "Переглядати та створювати проєкти", "Projekte ansehen und erstellen") }}</li>
+                    <li>{{ t(g, "Брати участь у голосуваннях", "An Abstimmungen teilnehmen") }}</li>
+                    <li>{{ t(g, "Користуватися чат-помічником", "Den Chat-Assistenten nutzen") }}</li>
+                    <li>{{ t(g, "Переглядати фінансові звіти", "Finanzberichte einsehen") }}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.btn-outline-primary {
+    border: 2px solid var(--primary-color);
+    background: transparent;
+    color: var(--primary-color);
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s;
+}
+
+.btn-outline-primary:hover {
+    background: var(--primary-color);
+    color: white;
+}
+</style>
+{% endblock %}

@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}{{ t(g, "Реєстрація", "Registrierung") }} - BRAMA-UAe.V2025{% endblock %}
+
+{% block content %}
+<div class="fade-in">
+    <div style="max-width: 500px; margin: 2rem auto;">
+        <div class="content-block">
+            <h2 style="text-align: center; margin-bottom: 2rem;">
+                {{ t(g, "Приєднайтесь до BRAMA-UAe", "Treten Sie BRAMA-UAe bei") }}
+            </h2>
+            
+            <div style="margin-bottom: 2rem; padding: 1rem; background: linear-gradient(135deg, #e3f2fd, #f3e5f5); border-radius: 8px;">
+                <p style="margin: 0; text-align: center; font-weight: 500;">
+                    {{ t(g, 
+                       "🇺🇦 Станьте частиною української спільноти в Німеччині",
+                       "🇺🇦 Werden Sie Teil der ukrainischen Gemeinschaft in Deutschland"
+                    ) }}
+                </p>
+            </div>
+            
+            <form method="POST">
+                {{ form.hidden_tag() }}
+                
+                <div class="form-group">
+                    {{ form.email.label(class="form-label") }}
+                    {{ form.email(class="form-control", placeholder=t(g, "ivan@example.com", "ivan@example.com")) }}
+                    {% if form.email.errors %}
+                        <div style="color: var(--danger-color); font-size: 0.9rem; margin-top: 0.5rem;">
+                            {% for error in form.email.errors %}{{ error }}{% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        {{ form.first_name.label(class="form-label") }}
+                        {{ form.first_name(class="form-control", placeholder=t(g, "Іван", "Ivan")) }}
+                    </div>
+                    
+                    <div class="form-group">
+                        {{ form.last_name.label(class="form-label") }}
+                        {{ form.last_name(class="form-control", placeholder=t(g, "Петренко", "Petrenko")) }}
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    {{ form.password.label(class="form-label") }}
+                    {{ form.password(class="form-control", placeholder=t(g, "Мінімум 6 символів", "Mindestens 6 Zeichen")) }}
+                    {% if form.password.errors %}
+                        <div style="color: var(--danger-color); font-size: 0.9rem; margin-top: 0.5rem;">
+                            {% for error in form.password.errors %}{{ error }}{% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group" style="background: #fff3cd; padding: 1rem; border-radius: 8px; border-left: 4px solid var(--warning-color);">
+                    <div style="display: flex; align-items: flex-start; gap: 0.5rem;">
+                        {{ form.consent(style="width: auto; margin-top: 0.2rem;") }}
+                        <label for="consent" style="margin: 0; line-height: 1.5; font-size: 0.9rem;">
+                            {{ t(g,
+                               "Я погоджуюсь на збереження та обробку моїх персональних даних відповідно до політики конфіденційності BRAMA-UAe",
+                               "Ich stimme der Speicherung und Verarbeitung meiner persönlichen Daten gemäß der Datenschutzerklärung von BRAMA-UAe zu"
+                            ) }}
+                            <a href="{{ url_for('public.privacy') }}" target="_blank" style="color: var(--primary-color);">
+                                {{ t(g, "(Переглянути)", "(Ansehen)") }}
+                            </a>
+                        </label>
+                    </div>
+                    {% if form.consent.errors %}
+                        <div style="color: var(--danger-color); font-size: 0.9rem; margin-top: 0.5rem;">
+                            {% for error in form.consent.errors %}{{ error }}{% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    {{ form.submit(class="btn btn-primary", style="width: 100%; font-size: 1.1rem; padding: 1rem;") }}
+                </div>
+            </form>
+            
+            <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #eee;">
+                <p>{{ t(g, "Вже маєте обліковий запис?", "Haben Sie bereits ein Konto?") }}</p>
+                <a href="{{ url_for('auth.login') }}" class="btn btn-outline-primary">
+                    {{ t(g, "Увійти", "Anmelden") }}
+                </a>
+            </div>
+            
+            <div style="margin-top: 2rem; padding: 1rem; background: #e8f5e8; border-radius: 8px; font-size: 0.9rem;">
+                <strong>{{ t(g, "Після реєстрації ви отримаєте доступ до:", "Nach der Registrierung erhalten Sie Zugang zu:") }}</strong>
+                <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                    <li>{{ t(g, "Особистого кабінету учасника", "Persönliches Mitgliederdashboard") }}</li>
+                    <li>{{ t(g, "Створення та голосування за проєкти", "Erstellen und Abstimmen über Projekte") }}</li>
+                    <li>{{ t(g, "Участі в онлайн-зборах", "Teilnahme an Online-Versammlungen") }}</li>
+                    <li>{{ t(g, "Перегляду фінансових звітів", "Einsicht in Finanzberichte") }}</li>
+                    <li>{{ t(g, "Чат-помічника з AI підтримкою", "AI-gestützter Chat-Assistent") }}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.btn-outline-primary {
+    border: 2px solid var(--primary-color);
+    background: transparent;
+    color: var(--primary-color);
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s;
+}
+
+.btn-outline-primary:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+}
+</style>
+{% endblock %}

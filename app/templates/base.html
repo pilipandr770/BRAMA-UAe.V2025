@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="{{ g.lang }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}BRAMA-UAe.V2025 - {{ t(g, "Український e.V. платформа", "Ukrainischer e.V. Platform") }}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <meta name="description" content="{{ t(g, 'BRAMA-UAe - український e.V. з прозорим управлінням та демократичними процесами', 'BRAMA-UAe - ukrainischer e.V. mit transparenter Verwaltung und demokratischen Prozessen') }}">
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <header class="header">
+        {% include 'partials/navbar.html' %}
+    </header>
+
+    <main class="main">
+        <div class="container">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ 'danger' if category == 'error' else category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <footer class="footer">
+        {% include 'partials/footer.html' %}
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/chat_widget.js') }}"></script>
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>
