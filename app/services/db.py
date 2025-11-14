@@ -16,12 +16,14 @@ def init_db(app):
 	db_engine = create_engine(uri, pool_pre_ping=True, future=True)
 	SessionFactory = scoped_session(sessionmaker(bind=db_engine, autoflush=False, autocommit=False))
 
-	# Встановлюємо search_path на нашу схему
+
+	# Встановлюємо search_path на нашу схему тільки для PostgreSQL
 	schema = app.config.get("DB_SCHEMA", "public")
-	with db_engine.connect() as conn:
-		conn.execute(text(f"CREATE SCHEMA IF NOT EXISTS {schema};"))
-		conn.execute(text(f"SET search_path TO {schema}, public;"))
-		conn.commit()
+	if db_engine.url.get_backend_name() == "postgresql":
+		with db_engine.connect() as conn:
+			conn.execute(text(f"CREATE SCHEMA IF NOT EXISTS {schema};"))
+			conn.execute(text(f"SET search_path TO {schema}, public;"))
+			conn.commit()
 
 	# Імпортуємо моделі після ініт
 	from ..models.user import User, Role
@@ -33,6 +35,39 @@ def init_db(app):
 	# Створюємо таблиці (без Alembic, простий старт)
 	Base.metadata.schema = schema
 	Base.metadata.create_all(db_engine)
+
+	# Додаємо тестові ContentBlock, якщо їх ще немає
+	session = SessionFactory()
+	try:
+		from ..models.content import ContentBlock, GalleryImage
+		if session.query(ContentBlock).count() == 0:
+			# info
+			session.add(ContentBlock(
+				block_type="info",
+				title_uk="Тестовий інфоблок (укр)",
+				title_de="Test Info (de)",
+				body_uk="Це тестовий інформаційний блок. Його можна редагувати в адмінці.",
+				body_de="Dies ist ein Test-Infoblock. Kann im Admin bearbeitet werden."
+			))
+			# gallery
+			session.add(ContentBlock(
+				block_type="gallery",
+				title_uk="Галерея (тест)",
+				title_de="Galerie (Test)",
+				body_uk="Тут буде галерея фото.",
+				body_de="Hier wird eine Fotogalerie sein."
+			))
+			# projects
+			session.add(ContentBlock(
+				block_type="projects",
+				title_uk="Проєкти (тест)",
+				title_de="Projekte (Test)",
+				body_uk="Тут буде список проєктів.",
+				body_de="Hier werden Projekte angezeigt."
+			))
+			session.commit()
+	finally:
+		session.close()
 
 def db_session():
 	return SessionFactory()

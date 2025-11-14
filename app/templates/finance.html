@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Фінанси платформи</h2>
+<p><strong>Баланс:</strong> {{ balance }} EUR</p>
+<p><strong>Надходження:</strong> {{ income }} EUR</p>
+<p><strong>Витрати:</strong> {{ expense }} EUR</p>
+
+<h3>Останні транзакції</h3>
+<table>
+  <tr><th>Дата</th><th>Тип</th><th>Сума</th><th>Валюта</th><th>Опис</th></tr>
+  {% for tx in txs %}
+    <tr>
+      <td>{{ tx.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+      <td>{{ 'Надходження' if tx.type == 'income' else 'Витрата' }}</td>
+      <td>{{ tx.amount }}</td>
+      <td>{{ tx.currency }}</td>
+      <td>{{ tx.description }}</td>
+    </tr>
+  {% endfor %}
+</table>
+{% endblock %}
